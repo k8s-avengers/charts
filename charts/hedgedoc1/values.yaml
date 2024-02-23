@@ -1,0 +1,114 @@
+replicaCount: 1 # Requires ReadWriteMany storage class if >1
+
+image:
+  repository: ghcr.io/linuxserver/hedgedoc
+  pullPolicy: Always # linuxserver doesn't bitrot, as long as you're on a stable release; always pull to get security fixes
+  # Instead, change appVersion in Chart.yaml
+  # tag: "1.9.9" # https://github.com/linuxserver/docker-hedgedoc/pkgs/container/hedgedoc
+
+persistence:
+  enabled: true
+  #storageClassName: "local-path"
+  accessModes: [ "ReadWriteOnce" ]
+  size: 2Gi
+
+env:
+  CMD_ALLOW_ORIGIN: "hedgedoc.example.org" # MUST match ingress host
+  CMD_DOMAIN: "hedgedoc.example.org" # MUST match ingress host
+  CMD_PROTOCOL_USESSL: "true" # MUST match ingress tls
+  TZ: "Europe/Amsterdam" # make sure to override
+  CMD_CSP_ENABLE: "false"
+  CMD_PORT: "3000"
+  NODE_ENV: "production"
+  CMD_ENABLE_STATS_API: "true"
+  CMD_DB_HOST: "hedgedoc1-mariadb" # mariadb's subchart default service name
+  CMD_DB_DIALECT: "mariadb"
+  CMD_DB_DATABASE: "hedgedoc"
+  CMD_DB_USERNAME: "hedgedocuser"
+  CMD_DB_PASSWORD: "nonsecrethedgedocpass"
+  CMD_SESSION_SECRET: "nonsecrethedgesession"
+  CMD_ALLOW_ANONYMOUS: "true" # insecure
+  CMD_ALLOW_ANONYMOUS_EDITS: "true" # very insecure
+
+mariadb:
+  enabled: false # disable and change CMD_DB_xx above to use other db
+  auth: # Gotta match the ENV vars above if enabled
+    rootPassword: "nonsecrethedgeroot"
+    database: "hedgedoc"
+    username: "hedgedocuser"
+    password: "nonsecrethedgedocpass"
+  architecture: standalone
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+ingress:
+  enabled: false
+  annotations: { }
+  #className: "nginx" # NOT ingressClassName
+  hosts: [ ]
+  tls: [ ]
+
+service:
+  type: ClusterIP
+  port: 3000
+
+livenessProbe:
+  httpGet:
+    path: /status
+    port: http
+
+readinessProbe:
+  httpGet:
+    path: /status
+    port: http
+
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Automatically mount a ServiceAccount's API credentials?
+  automount: true
+  # Annotations to add to the service account
+  annotations: { }
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+
+imagePullSecrets: [ ]
+nameOverride: ""
+fullnameOverride: ""
+
+
+podAnnotations: { }
+podLabels: { }
+
+podSecurityContext: { }
+# fsGroup: 2000
+
+securityContext: { }
+# capabilities:
+#   drop:
+#   - ALL
+# readOnlyRootFilesystem: true
+# runAsNonRoot: true
+# runAsUser: 1000
+
+resources: { }
+# We usually recommend not to specify default resources and to leave this as a conscious
+# choice for the user. This also increases chances charts run on environments with little
+# resources, such as Minikube. If you do want to specify resources, uncomment the following
+# lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+# limits:
+#   cpu: 100m
+#   memory: 128Mi
+# requests:
+#   cpu: 100m
+#   memory: 128Mi
+
+nodeSelector: { }
+
+tolerations: [ ]
+
+affinity: { }
