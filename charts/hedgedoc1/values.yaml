@@ -21,6 +21,7 @@ env:
   CMD_PORT: "3000"
   NODE_ENV: "production"
   CMD_ENABLE_STATS_API: "true"
+  CMD_ALLOW_FREEURL: "true" # allow new note creation by accessing a nonexistent note URL. This is the behavior familiar from Etherpad
   CMD_DB_HOST: "hedgedoc1-mariadb" # mariadb's subchart default service name
   CMD_DB_DIALECT: "mariadb"
   CMD_DB_DATABASE: "hedgedoc"
