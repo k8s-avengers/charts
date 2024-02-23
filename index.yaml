@@ -3,6 +3,24 @@ entries:
   hedgedoc1:
   - apiVersion: v2
     appVersion: 1.9.9
+    created: "2024-02-23T16:49:07.910250393Z"
+    dependencies:
+    - condition: mariadb.enabled
+      name: mariadb
+      repository: https://charts.bitnami.com/bitnami
+      version: ~16.3.2
+    description: HedgeDoc (1.x) from linuxserver.io with MariaDB from bitnami
+    digest: 26aaa6629e2c13b0e4c3fcfb882189887ed6e2952c03d82c4329ff06740ff98b
+    name: hedgedoc1
+    sources:
+    - https://github.com/hedgedoc/hedgedoc
+    - https://hub.docker.com/r/linuxserver/hedgedoc
+    type: application
+    urls:
+    - https://github.com/k8s-avengers/charts/releases/download/hedgedoc1-1.1.1/hedgedoc1-1.1.1.tgz
+    version: 1.1.1
+  - apiVersion: v2
+    appVersion: 1.9.9
     created: "2024-02-23T15:55:56.993087042Z"
     dependencies:
     - condition: mariadb.enabled
@@ -19,4 +37,4 @@ entries:
     urls:
     - https://github.com/k8s-avengers/charts/releases/download/hedgedoc1-1.1.0/hedgedoc1-1.1.0.tgz
     version: 1.1.0
-generated: "2024-02-23T15:55:56.993113627Z"
+generated: "2024-02-23T16:49:07.91026474Z"
