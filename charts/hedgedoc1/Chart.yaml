@@ -2,11 +2,11 @@ apiVersion: v2
 name: hedgedoc1
 description: HedgeDoc (1.x) from linuxserver.io with MariaDB from bitnami
 type: application
-version: 1.1.0
+version: 1.1.1
 appVersion: "1.9.9" # https://github.com/linuxserver/docker-hedgedoc/pkgs/container/hedgedoc
 dependencies:
   - name: mariadb
-    version: ~16.3.2 # @TODO is it supported? check hedgedoc docs
+    version: ~16.3.2
     repository: https://charts.bitnami.com/bitnami
     condition: mariadb.enabled
 sources:

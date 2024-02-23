@@ -54,7 +54,7 @@ spec:
           {{ if .Values.persistence.enabled }}
           volumeMounts:
             - name: uploads-pvc
-              mountPath: "/hedgedoc/public/uploads"
+              mountPath: # "/config/uploads" # "/hedgedoc/public/uploads" for upstream image, but this is linuxserver's, and thus /config
               readOnly: false
           {{- end }}
       {{ if .Values.persistence.enabled }}

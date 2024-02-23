@@ -1,0 +1,19 @@
+{{ if .Values.serviceMonitor.enabled }}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ include "hedgedoc1.fullname" . }}
+  labels:
+    {{- include "hedgedoc1.labels" . | nindent 4 }}
+spec:
+  endpoints:
+    - port: http
+      scheme: http
+      path: /metrics
+  namespaceSelector:
+    matchNames:
+      - {{ .Release.Namespace }}
+  selector:
+    matchLabels:
+        {{- include "hedgedoc1.selectorLabels" . | nindent 6 }}
+{{end}}
