@@ -4,7 +4,7 @@ name: "Charts: Release"
 on:
   workflow_dispatch:
   push:
-    branches: 
+    branches:
       - main
     paths:
       - 'charts/**'
@@ -15,7 +15,7 @@ jobs:
     if: "!contains(github.event.head_commit.message, '[ci-skip]')"
     runs-on: ubuntu-latest
     steps:
-      - { name: "Checkout build repo", uses: "actions/checkout@v4" }
+      - { name: "Checkout build repo", uses: "actions/checkout@v4", with: { fetch-depth: 0 } } # helm releaser needs the whole history
       - { name: "Setup Helm", uses: "azure/setup-helm@v4.0.0", with: { version: "3.14.1" } } # v4 only does not work?
 
       - name: Configure Git
